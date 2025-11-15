@@ -1,28 +1,27 @@
 import { useState, useContext } from 'react'
-import { validateEmail, validatePassword } from '../utils/validators'
-import { VALIDATION_MESSAGES } from '../utils/constants'
-import { addUser, userExists, login } from '../utils/authStorage'
-import { AuthContext } from '../context/AuthContext'
+import { Link } from 'react-router-dom'
+import { validateEmail, validatePassword } from '../../utils/validators/validators'
+import { VALIDATION_MESSAGES } from '../../constants'
+import { authenticate, login } from '../../utils/authStorage/authStorage'
+import { AuthContext } from '../../context/AuthContext'
 
-export default function RegisterForm() {
+export default function LoginForm() {
     const { setIsLogged } = useContext(AuthContext)
+
     const [email, setEmail] = useState('')
     const [password, setPassword] = useState('')
-    const [confirmPassword, setConfirmPassword] = useState('')
 
     const [emailError, setEmailError] = useState<string | null>(null)
     const [passwordError, setPasswordError] = useState<string | null>(null)
-    const [confirmError, setConfirmError] = useState<string | null>(null)
     const [generalError, setGeneralError] = useState<string | null>(null)
 
     const resetErrors = () => {
         setEmailError(null)
         setPasswordError(null)
-        setConfirmError(null)
         setGeneralError(null)
     }
 
-    const validateFormInputs = (): void => {
+    const validateFormInputs = () => {
         if (!email) {
             setEmailError(VALIDATION_MESSAGES.EMAIL_REQUIRED)
         } else if (!validateEmail(email)) {
@@ -34,12 +33,6 @@ export default function RegisterForm() {
         } else if (!validatePassword(password)) {
             setPasswordError(VALIDATION_MESSAGES.PASSWORD_INVALID)
         }
-
-        if (!confirmPassword) {
-            setConfirmError(VALIDATION_MESSAGES.CONFIRM_PASSWORD_REQUIRED)
-        } else if (password !== confirmPassword) {
-            setConfirmError(VALIDATION_MESSAGES.CONFIRM_PASSWORD_MISMATCH)
-        }
     }
 
     const handleSubmit = (e: React.FormEvent) => {
@@ -48,18 +41,16 @@ export default function RegisterForm() {
         resetErrors()
         validateFormInputs()
 
-        if (emailError || passwordError || confirmError) {
+        if (emailError || passwordError) {
             return
         }
 
-        if (userExists(email)) {
-            setGeneralError('User already exists. Please login.')
+        if (!authenticate(email, password)) {
+            setGeneralError('Invalid email or password')
             return
-        } else {
-            addUser(email, password)
-            login()
-            setIsLogged(true)
         }
+        login()
+        setIsLogged(true)
     }
 
     return (
@@ -95,29 +86,18 @@ export default function RegisterForm() {
                 {passwordError && <p className="mt-1 text-sm text-red-600">{passwordError}</p>}
             </div>
 
-            <div>
-                <label htmlFor="confirmPassword" className="block text-sm font-medium text-gray-700 mb-1">
-                    Confirm Password
-                </label>
-                <input
-                    id="confirmPassword"
-                    type="password"
-                    value={confirmPassword}
-                    onChange={(e) => setConfirmPassword(e.target.value)}
-                    placeholder="Confirm your password"
-                    className={`w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 ${confirmError ? 'border-red-400 focus:ring-red-200' : 'border-gray-300 focus:ring-blue-500'}`}
-                />
-                {confirmError && <p className="mt-1 text-sm text-red-600">{confirmError}</p>}
-            </div>
-
             {generalError && <p className="text-sm text-red-600 text-center">{generalError}</p>}
 
             <button
                 type="submit"
                 className="w-full bg-blue-500 text-white py-2 rounded-lg font-semibold hover:bg-blue-600 transition-colors"
             >
-                Create Account
+                Sign In
             </button>
+
+            <p className="text-center text-sm text-gray-600">
+                Don't have an account? <Link to="/register" className="text-blue-500 hover:underline">Register</Link>
+            </p>
         </form>
     )
 }

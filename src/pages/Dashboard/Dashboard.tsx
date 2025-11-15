@@ -1,8 +1,8 @@
 import { useContext } from "react"
 import { Navigate } from "react-router-dom"
-import { AuthContext } from "../context/AuthContext"
-import Navbar from "../components/NavBar"
-import News from "../components/News"
+import { AuthContext } from "../../context/AuthContext"
+import Navbar from "../../components/Navbar/NavBar"
+import News from "../../components/News/News"
 
 export default function Dashboard() {
   const { isLogged } = useContext(AuthContext)

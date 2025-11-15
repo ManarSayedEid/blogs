@@ -1,8 +1,8 @@
 import { Routes, Route } from 'react-router-dom'
 import { AuthContextProvider } from './context/AuthContextProvider'
-import Login from './pages/Login'
-import Register from './pages/Register'
-import Dashboard from './pages/Dashboard'
+import Login from './pages/Login/Login'
+import Register from './pages/Register/Register'
+import Dashboard from './pages/Dashboard/Dashboard'
 
 function App() {
 

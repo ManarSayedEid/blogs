@@ -1,10 +1,10 @@
 import { useEffect, useState } from "react"
-import { IS_LOGGED_KEY } from "../utils/constants"
+import { IS_LOGGED_KEY } from "../constants"
 import { AuthContext } from "./AuthContext"
-import Loader from "../components/Loader"
+import Loader from "../components/Loader/Loader"
 
 export const AuthContextProvider = ({ children }: { children: React.ReactNode }) => {
-    
+
     const [isLogged, setIsLogged] = useState<boolean | null>(null)
 
     useEffect(() => {
@@ -15,8 +15,8 @@ export const AuthContextProvider = ({ children }: { children: React.ReactNode })
         }
     }, [])
 
-    if (isLogged === null) return <Loader /> 
-    
+    if (isLogged === null) return <Loader />
+
     return (
         <AuthContext.Provider value={{ isLogged, setIsLogged }}>
             {children}

@@ -1,7 +1,7 @@
 import { useContext } from 'react'
 import { Link, Navigate } from 'react-router-dom'
-import RegisterForm from '../components/RegisterForm'
-import { AuthContext } from '../context/AuthContext'
+import RegisterForm from '../../components/RegisterForm/RegisterForm'
+import { AuthContext } from '../../context/AuthContext'
 
 export default function Register() {
     const { isLogged } = useContext(AuthContext)

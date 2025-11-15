@@ -1,4 +1,4 @@
-import { USERS_KEY, IS_LOGGED_KEY } from './constants'
+import { USERS_KEY, IS_LOGGED_KEY } from '../../constants'
 
 type User = {
     email: string

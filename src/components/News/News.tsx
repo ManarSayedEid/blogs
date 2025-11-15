@@ -1,8 +1,8 @@
 import { useEffect, useState } from "react"
-import Loader from "./Loader"
-import ErrorFB from "./ErrorFB"
-import ArticleCard from "./ArticleCard"
-import { fetchNews, type NewsApiResponse, type Article } from "../data/getNews"
+import Loader from "../Loader/Loader"
+import ErrorFB from "../ErrorFB/ErrorFB"
+import ArticleCard from "../ArticleCard/ArticleCard"
+import { fetchNews, type NewsApiResponse, type Article } from "../../data/fetchNews"
 
 export default function News() {
     const [news, setNews] = useState<NewsApiResponse | null>(null)

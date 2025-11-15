@@ -1,4 +1,4 @@
-import type { Article } from "../data/getNews"
+import type { Article } from "../../data/fetchNews"
 
 export default function ArticleCard({ article }: { article: Article }) {
 
