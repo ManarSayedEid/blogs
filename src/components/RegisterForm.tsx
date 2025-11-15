@@ -1,11 +1,13 @@
-import { useState } from 'react'
+import { useState, useContext } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { validateEmail, validatePassword } from '../utils/validators'
 import { VALIDATION_MESSAGES } from '../utils/constants'
-import { addUser, checkExistance } from '../utils/authStorage'
+import { addUser, userExists, login } from '../utils/authStorage'
+import { AuthContext } from '../context/AuthContext'
 
 export default function RegisterForm() {
     const navigate = useNavigate()
+    const { setIsLogged } = useContext(AuthContext)
     const [email, setEmail] = useState('')
     const [password, setPassword] = useState('')
     const [confirmPassword, setConfirmPassword] = useState('')
@@ -46,21 +48,20 @@ export default function RegisterForm() {
         e.preventDefault()
 
         resetErrors()
-
         validateFormInputs()
 
         if (emailError || passwordError || confirmError) {
             return
         }
 
-        // This MUST be done via secure backend API, this is just for demo purposes
-        if (checkExistance(email, password)) {
+        if (userExists(email)) {
             setGeneralError('User already exists. Please login.')
             return
+        } else {
+            addUser(email, password)
+            login()
+            setIsLogged(true)
         }
-
-        addUser(email, password)
-        navigate('/dashboard')
     }
 
     return (

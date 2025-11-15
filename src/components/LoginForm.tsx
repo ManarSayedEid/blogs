@@ -1,11 +1,14 @@
-import { useState } from 'react'
+import { useState, useContext } from 'react'
 import { useNavigate, Link } from 'react-router-dom'
 import { validateEmail, validatePassword } from '../utils/validators'
 import { VALIDATION_MESSAGES } from '../utils/constants'
-import { checkExistance, login } from '../utils/authStorage'
+import { authenticate, login } from '../utils/authStorage'
+import { AuthContext } from '../context/AuthContext'
 
 export default function LoginForm() {
     const navigate = useNavigate()
+    const { setIsLogged } = useContext(AuthContext)
+
     const [email, setEmail] = useState('')
     const [password, setPassword] = useState('')
 
@@ -43,14 +46,12 @@ export default function LoginForm() {
             return
         }
 
-        // This MUST be done via secure backend API, this is just for demo purposes
-        if (!checkExistance(email, password)) {
+        if (!authenticate(email, password)) {
             setGeneralError('Invalid email or password')
             return
         }
-
         login()
-        navigate('/dashboard')
+        setIsLogged(true)
     }
 
     return (
