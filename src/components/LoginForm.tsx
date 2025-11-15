@@ -1,12 +1,11 @@
 import { useState, useContext } from 'react'
-import { useNavigate, Link } from 'react-router-dom'
+import { Link } from 'react-router-dom'
 import { validateEmail, validatePassword } from '../utils/validators'
 import { VALIDATION_MESSAGES } from '../utils/constants'
 import { authenticate, login } from '../utils/authStorage'
 import { AuthContext } from '../context/AuthContext'
 
 export default function LoginForm() {
-    const navigate = useNavigate()
     const { setIsLogged } = useContext(AuthContext)
 
     const [email, setEmail] = useState('')
