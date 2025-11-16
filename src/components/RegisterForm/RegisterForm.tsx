@@ -22,44 +22,50 @@ export default function RegisterForm() {
         setGeneralError(null)
     }
 
-    const validateFormInputs = (): void => {
+    const isValidFormInputs = () => {
+        let isValid = true
         if (!email) {
             setEmailError(VALIDATION_MESSAGES.EMAIL_REQUIRED)
+            isValid = false
         } else if (!validateEmail(email)) {
             setEmailError(VALIDATION_MESSAGES.EMAIL_INVALID)
+            isValid = false
         }
 
         if (!password) {
             setPasswordError(VALIDATION_MESSAGES.PASSWORD_REQUIRED)
+            isValid = false     
         } else if (!validatePassword(password)) {
             setPasswordError(VALIDATION_MESSAGES.PASSWORD_INVALID)
+            isValid = false
         }
 
         if (!confirmPassword) {
             setConfirmError(VALIDATION_MESSAGES.CONFIRM_PASSWORD_REQUIRED)
+            isValid = false
         } else if (password !== confirmPassword) {
             setConfirmError(VALIDATION_MESSAGES.CONFIRM_PASSWORD_MISMATCH)
+            isValid = false
         }
+        return isValid
     }
 
     const handleSubmit = (e: React.FormEvent) => {
         e.preventDefault()
 
         resetErrors()
-        validateFormInputs()
-
-        if (emailError || passwordError || confirmError) {
+        if (!isValidFormInputs()) {
             return
         }
 
         if (userExists(email)) {
             setGeneralError('User already exists. Please login.')
             return
-        } else {
-            addUser(email, password)
-            login()
-            setIsLogged(true)
         }
+
+        addUser(email, password)
+        login()
+        setIsLogged(true)
     }
 
     return (

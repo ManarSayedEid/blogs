@@ -21,27 +21,33 @@ export default function LoginForm() {
         setGeneralError(null)
     }
 
-    const validateFormInputs = () => {
+    const isValidFormInputs = () => {
+        let isValid = true
         if (!email) {
             setEmailError(VALIDATION_MESSAGES.EMAIL_REQUIRED)
+            isValid = false
         } else if (!validateEmail(email)) {
             setEmailError(VALIDATION_MESSAGES.EMAIL_INVALID)
+            isValid = false
         }
 
         if (!password) {
             setPasswordError(VALIDATION_MESSAGES.PASSWORD_REQUIRED)
+            isValid = false
         } else if (!validatePassword(password)) {
             setPasswordError(VALIDATION_MESSAGES.PASSWORD_INVALID)
+            isValid = false
         }
+
+        return isValid
     }
 
     const handleSubmit = (e: React.FormEvent) => {
         e.preventDefault()
 
         resetErrors()
-        validateFormInputs()
 
-        if (emailError || passwordError) {
+        if (!isValidFormInputs()) {
             return
         }
 
