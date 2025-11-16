@@ -1,5 +1,7 @@
 # News Dashboard 
-
+<img width="1022" height="719" alt="image" src="https://github.com/user-attachments/assets/8d63119f-9dec-4afa-a1f9-ea2d86dca1b2" />
+<img width="561" height="516" alt="image" src="https://github.com/user-attachments/assets/d643e5aa-662b-4529-a5f6-726fa4bdd2ba" />
+<img width="522" height="601" alt="image" src="https://github.com/user-attachments/assets/a6054fb7-f4a1-429b-abeb-0a5e290ff080" />
 
 ## 🛠️ Tech Stack
 
@@ -17,7 +19,7 @@
 
 1. **Clone the repository**
    ```bash
-   git clone <repo-url>
+   git clone git@github.com:ManarSayedEid/blogs.git
    cd blogs
    ```
 
